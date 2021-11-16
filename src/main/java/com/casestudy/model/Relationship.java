@@ -1,11 +1,19 @@
 package com.casestudy.model;
 
 public class Relationship {
+    private int id;
     private User user2;
     private User user1;
     private int status;
 
     public Relationship() {
+    }
+
+    public Relationship(int id, User user2, User user1, int status) {
+        this.id = id;
+        this.user2 = user2;
+        this.user1 = user1;
+        this.status = status;
     }
 
     public Relationship(User user2, User user1, int status) {
@@ -14,8 +22,12 @@ public class Relationship {
         this.status = status;
     }
 
-    public Relationship(int status) {
-        this.status = status;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public User getUser2() {

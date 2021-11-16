@@ -24,11 +24,64 @@ public class UserServlet extends HttpServlet {
     private final LikePostService likePostService = new LikePostService();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+        if(action == null){
+            action ="";
+        }
+        switch (action){
+            case "create":
+                showCreateForm(request,response);
+                break;
+            case "edit":
+                showEditForm(request,response);
+                break;
+            case "delete":
+                delete(request,response);
+                break;
+            case "view":
+                showView(request,response);
+                break;
+            default:
+                homePage(request,response);
+                break;
+        }
 
+    }
+
+    private void homePage(HttpServletRequest request, HttpServletResponse response) {
+    }
+
+    private void showView(HttpServletRequest request, HttpServletResponse response) {
+    }
+
+    private void delete(HttpServletRequest request, HttpServletResponse response) {
+    }
+
+    private void showEditForm(HttpServletRequest request, HttpServletResponse response) {
+    }
+
+    private void showCreateForm(HttpServletRequest request, HttpServletResponse response) {
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+        if(action == null){
+            action ="";
+        }
+        switch (action){
+            case "create":
+                create(request,response);
+                break;
+            case "edit":
+                edit(request,response);
+                break;
+        }
+    }
 
+    private void edit(HttpServletRequest request, HttpServletResponse response) {
+    }
+
+    private void create(HttpServletRequest request, HttpServletResponse response) {
     }
 }

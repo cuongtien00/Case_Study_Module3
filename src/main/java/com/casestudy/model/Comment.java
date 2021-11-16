@@ -9,6 +9,8 @@ public class Comment {
     public Comment() {
     }
 
+
+
     public Comment(int id, String content, Post post, User user) {
         this.id = id;
         this.content = content;

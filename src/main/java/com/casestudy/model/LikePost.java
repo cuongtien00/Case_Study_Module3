@@ -1,6 +1,6 @@
 package com.casestudy.model;
 
-public class LikePost {
+public class    LikePost {
     private int id;
     private Post post;
     private User user;

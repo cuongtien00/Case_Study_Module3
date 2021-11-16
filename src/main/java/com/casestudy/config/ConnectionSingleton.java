@@ -11,7 +11,7 @@ public class ConnectionSingleton {
     }
     public static final String URL = "jdbc:mysql://localhost:3306/case_study_module3";
     public static final String USER = "root";
-    public static final String PASSWORD = "Cuongtien1809";
+    public static final String PASSWORD = "Hocbaidi1212";
     public static Connection getConnection(){
         if(connection==null){
             try {

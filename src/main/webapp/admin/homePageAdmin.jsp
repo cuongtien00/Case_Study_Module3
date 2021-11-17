@@ -13,8 +13,29 @@
     <title>Title</title>
 </head>
 <body>
-<d:forEach items="${userList}" var="user">
-    <p>${user.fullName}</p>
-</d:forEach>
+<div align="center">
+    <h3><a href="/login?action=signup" style="color: red">Create new User</a></h3>
+    <table border="1" class="table table-warning table-striped table-hover">
+        <tr>
+            <th><a href="/books?action=sort">Full Name</a></th>
+            <th>Introduction</th>
+            <th>User Name</th>
+            <th>Pass Word</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        <d:forEach items="${userList}" var="user">
+            <tr>
+                <td><a href="/login?action=view&id=${user.id}">${user.fullName}</a></td>
+                <td>${user.introduction}</td>
+                <td>${user.userName}</td>
+                <td>${user.passWord}</td>
+                <td><a href="/login?action=edit&id=${user.id}">Edit</a></td>
+                <td><a href="/login?action=delete&id=${user.id}">Delete</a></td>
+            </tr>
+
+        </d:forEach>
+    </table>
+</div>
 </body>
 </html>

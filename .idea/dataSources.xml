@@ -1,36 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="@localhost" uuid="54fc6f65-5754-4823-867d-a543269d265c">
-      <driver-ref>mysql.8</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
-<<<<<<< HEAD
-<<<<<<< HEAD
-    <data-source source="LOCAL" name="@cuongphm12" uuid="e5eabf2f-304a-4330-a8ae-d9711388dc79">
-      <driver-ref>mysql.8</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
-    <data-source source="LOCAL" name="@localhost [2]" uuid="3c7ef8ae-695b-48a4-bda0-bb374c0e49ac">
-      <driver-ref>mysql.8</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
-    <data-source source="LOCAL" name="case_study_module3" uuid="8afa3fe3-61df-4d23-8927-dcfbc281f5bf">
-=======
-    <data-source source="LOCAL" name="case_study_module3" uuid="d30dbd37-5f84-4157-b982-e63f9ab5996b">
->>>>>>> 9c26cd4f4ecd7e2f14d1caf5ef1c0c9f611ab51d
-=======
-    <data-source source="LOCAL" name="comment" uuid="3107d9f0-4216-470c-9ea6-6ca2d4d02d6b">
->>>>>>> 8df4bc2153566c48b49e1ac2176356a4594e5403
+    <data-source source="LOCAL" name="@localhost" uuid="d6701201-ce29-4651-ba2a-9d1b29b08a07">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>

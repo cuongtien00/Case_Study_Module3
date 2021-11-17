@@ -65,7 +65,7 @@ public class UserService implements IUserService{
     @Override
     public boolean update(User user) throws SQLException {
         boolean rowUpdated;
-        PreparedStatement statement = connection.prepareStatement("update user set fullName= ?, introduction = ?,username = ?, password=? where id=?;");
+        PreparedStatement statement = connection.prepareStatement("update user set fullName= ?, introduction = ?,username = ?, password=?, role_id=1 where id=?;");
         statement.setString(1,user.getFullName());
         statement.setString(2,user.getIntroduction());
         statement.setString(3,user.getUserName());

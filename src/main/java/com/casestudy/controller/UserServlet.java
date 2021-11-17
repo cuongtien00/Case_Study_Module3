@@ -1,5 +1,6 @@
 package com.casestudy.controller;
 
+import com.casestudy.model.Role;
 import com.casestudy.model.User;
 import com.casestudy.service.comment.CommentService;
 import com.casestudy.service.comment.ICommentService;
@@ -9,7 +10,6 @@ import com.casestudy.service.relationship.RelationshipService;
 import com.casestudy.service.role.RoleService;
 import com.casestudy.service.user.UserService;
 
-import javax.management.relation.Role;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -42,9 +42,6 @@ public class UserServlet extends HttpServlet {
             case "signup":
                 showViewCreateUser(request,response);
                 break;
-            case "create":
-                showCreateForm(request, response);
-                break;
             case "edit":
                 showEditForm(request, response);
                 break;
@@ -76,7 +73,7 @@ public class UserServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("admin/homePageAdmin.jsp");
         HttpSession session = request.getSession(false);
         if (session != null) {
-            List<User> userList = (List<User>) session.getAttribute("userList");
+            List<User> userList = (List<User>)session.getAttribute("userList");
             request.setAttribute("userList", userList);
             try {
                 dispatcher.forward(request, response);
@@ -115,10 +112,25 @@ public class UserServlet extends HttpServlet {
     }
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response) {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("admin/edit.jsp");
+        int id = Integer.parseInt(request.getParameter("id"));
+        User user = userService.findById(id);
+
+        HttpSession session = request.getSession();
+        session.setAttribute("user",user);
+        request.setAttribute("user",user);
+        try {
+            dispatcher.forward(request,response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
-    private void showCreateForm(HttpServletRequest request, HttpServletResponse response) {
-    }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -127,9 +139,6 @@ public class UserServlet extends HttpServlet {
             action = "";
         }
         switch (action) {
-            case "create":
-                create(request, response);
-                break;
             case "edit":
                 edit(request, response);
                 break;
@@ -167,7 +176,6 @@ public class UserServlet extends HttpServlet {
         try {
             userService.insert(user);
             dispatcher.forward(request,response);
-//            response.sendRedirect("user/createUser.jsp");
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -217,6 +225,29 @@ public class UserServlet extends HttpServlet {
     }
 
     private void edit(HttpServletRequest request, HttpServletResponse response) {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("admin/edit.jsp");
+        int id = Integer.parseInt(request.getParameter("id"));
+        HttpSession session = request.getSession(false);
+        User user = (User) session.getAttribute("user");
+        String fullName = request.getParameter("fullName");
+        String introduction = request.getParameter("introduction");
+        String username = user.getUserName();
+        String password = request.getParameter("password");
+        Role role = roleService.findById(1);
+        User user1 = new User(id,fullName,introduction,username,password,role);
+
+        try {
+            userService.update(user1);
+            session.setAttribute("user",user1);
+            request.setAttribute("message","User was updated!");
+            dispatcher.forward(request,response);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void create(HttpServletRequest request, HttpServletResponse response) {

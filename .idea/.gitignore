@@ -6,4 +6,8 @@
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/
+<<<<<<< HEAD
 /Case_Study_Module3/src/main/java/com/casestudy/config/
+=======
+/config/
+>>>>>>> 9c26cd4f4ecd7e2f14d1caf5ef1c0c9f611ab51d

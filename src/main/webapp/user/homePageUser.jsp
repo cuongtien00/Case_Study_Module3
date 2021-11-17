@@ -64,7 +64,12 @@
 
 </div>
 <div id="content">
+<table>
 
+    <tr>
+
+    </tr>
+</table>
 </div>
 </body>
 </html>

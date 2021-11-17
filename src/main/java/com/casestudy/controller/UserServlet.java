@@ -1,5 +1,6 @@
 package com.casestudy.controller;
 
+import com.casestudy.model.User;
 import com.casestudy.service.comment.CommentService;
 import com.casestudy.service.comment.ICommentService;
 import com.casestudy.service.likepost.LikePostService;
@@ -22,27 +23,28 @@ public class UserServlet extends HttpServlet {
     private final RoleService roleService = new RoleService();
     private final CommentService commentService = new CommentService();
     private final LikePostService likePostService = new LikePostService();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-        if(action == null){
-            action ="";
+        if (action == null) {
+            action = "";
         }
-        switch (action){
+        switch (action) {
             case "create":
-                showCreateForm(request,response);
+                showCreateForm(request, response);
                 break;
             case "edit":
-                showEditForm(request,response);
+                showEditForm(request, response);
                 break;
             case "delete":
-                delete(request,response);
+                delete(request, response);
                 break;
             case "view":
-                showView(request,response);
+                showView(request, response);
                 break;
             default:
-                homePage(request,response);
+                homePage(request, response);
                 break;
         }
 
@@ -66,16 +68,62 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-        if(action == null){
-            action ="";
+        if (action == null) {
+            action = "";
         }
-        switch (action){
+        switch (action) {
             case "create":
-                create(request,response);
+                create(request, response);
                 break;
             case "edit":
-                edit(request,response);
+                edit(request, response);
                 break;
+            case "login":
+                login(request, response);
+                break;
+            default:
+//                login(request, response);
+                break;
+        }
+    }
+
+    private void login(HttpServletRequest request, HttpServletResponse response) {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("admin/homePageAdmin.jsp");
+        RequestDispatcher dispatcher1 = request.getRequestDispatcher("user/homePageUser.jsp");
+        RequestDispatcher dispatcher2 = request.getRequestDispatcher("index.jsp");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        User user =userService.findByIdPassword(username, password);
+        boolean check = userService.isLogin(user);
+        if (check == true) {
+            if (user.getRole().getName().equals("admin")) {
+                try {
+                    dispatcher.forward(request, response);
+                } catch (ServletException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                try {
+                    dispatcher1.forward(request, response);
+                } catch (ServletException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        } else {
+            request.setAttribute("message", "Ten dang nhap hoac mat khau khong ton tai");
+            try {
+                dispatcher2.forward(request, response);
+            } catch (ServletException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 

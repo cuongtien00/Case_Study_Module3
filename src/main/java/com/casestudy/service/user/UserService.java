@@ -96,4 +96,34 @@ return rowUpdated;
         }
         return userList;
     }
+    public User findByIdPassword(String username,String password){
+        User user = null;
+        try {
+            PreparedStatement statement = connection.prepareStatement("select * from user where username = ? && password =?;");
+            statement.setString(1,username);
+            statement.setString(2,password);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                int id = resultSet.getInt("id");
+                String fullName = resultSet.getString("fullName");
+                String introduction = resultSet.getString("introduction");
+                int role_id = resultSet.getInt("role_id");
+                Role role = roleService.findById(role_id);
+                user = new User(id,fullName,introduction,username,password,role);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+    public boolean isLogin(User user){
+        boolean check = false;
+        List<User>userList = findAll();
+        for (User a: userList) {
+            if(a.getUserName().equals(user.getUserName())&&a.getPassWord().equals(user.getPassWord())){
+                check = true;
+            }
+        }
+        return check;
+    }
 }

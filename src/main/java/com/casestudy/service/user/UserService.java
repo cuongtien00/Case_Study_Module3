@@ -25,11 +25,21 @@ public class UserService implements IUserService{
         statement.setString(2,user.getIntroduction());
         statement.setString(3,user.getUserName());
         statement.setString(4,user.getPassWord());
-        statement.setInt(5,user.getRole().getId());
-
+        statement.setInt(5,1);
         statement.executeUpdate();
     }
 
+
+    public boolean checkUserName(String username){
+        boolean check = false;
+        List<User> userList = findAll();
+        for (User a:userList) {
+            if(a.getUserName().equals(username)){
+                check = true;
+            }
+        }
+        return check;
+    }
     @Override
     public User findById(int id) {
         User user = null;

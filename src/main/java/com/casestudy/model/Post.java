@@ -10,6 +10,10 @@ public class Post {
     public Post() {
     }
 
+    public Post(int id) {
+        this.id = id;
+    }
+
     public Post(int id, String tittle, String content, String image, User user) {
         this.id = id;
         this.tittle = tittle;

@@ -12,6 +12,6 @@
     <title>Title</title>
 </head>
 <body>
-<h1>aluong</h1>
+<h1>${user.fullName}</h1>
 </body>
 </html>

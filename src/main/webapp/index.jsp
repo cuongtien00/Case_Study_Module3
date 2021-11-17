@@ -49,7 +49,7 @@
             </defs>
             <path d="m 40,120.00016 239.99984,-3.2e-4 c 0,0 24.99263,0.79932 25.00016,35.00016 0.008,34.20084 -25.00016,35 -25.00016,35 h -239.99984 c 0,-0.0205 -25,4.01348 -25,38.5 0,34.48652 25,38.5 25,38.5 h 215 c 0,0 20,-0.99604 20,-25 0,-24.00396 -20,-25 -20,-25 h -190 c 0,0 -20,1.71033 -20,25 0,24.00396 20,25 20,25 h 168.57143" />
           </svg>
-          <form method="post" action="/users?action=login" >
+          <form method="post" action="/login?action=login" >
             <div class="form">
               <p><c:if test="${message!=null}">
                 <span>${message}</span>
@@ -60,7 +60,7 @@
               <input placeholder="Password" name="password" type="password" id="password">
               <input  class="btn btn-primary" type="submit" style="color: white" id="submit" value="Sign In">
               <a href="" style="text-decoration: none"><p style="color:red;text-align: center; margin-top: 10px;margin-bottom: 10px;">Forgot Password? </p></a>
-              <a href=""><input  class="btn btn-primary" type="submit" value="Sign Up"></a>
+              <input  class="btn btn-primary" type="submit" value="Sign Up">
             </div>
           </form>
 

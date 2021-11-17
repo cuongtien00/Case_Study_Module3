@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Phong Vu
@@ -5,12 +6,15 @@
   Time: 10:08 AM
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="d" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Title</title>
 </head>
 <body>
-<h1>hello</h1>
+<d:forEach items="${userList}" var="user">
+    <p>${user.fullName}</p>
+</d:forEach>
 </body>
 </html>

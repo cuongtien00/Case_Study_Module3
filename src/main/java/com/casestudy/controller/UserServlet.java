@@ -14,8 +14,9 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.List;
 
-@WebServlet(name = "UserServlet", value = "/users")
+@WebServlet(name = "UserServlet", value = "/login")
 public class UserServlet extends HttpServlet {
     private final UserService userService = new UserService();
     private final PostService postService = new PostService();
@@ -37,6 +38,12 @@ public class UserServlet extends HttpServlet {
             case "edit":
                 showEditForm(request, response);
                 break;
+            case "homePageUser":
+                showUserPage(request,response);
+                break;
+            case "homePageAdmin":
+                showAdminPage(request,response);
+                break;
             case "delete":
                 delete(request, response);
                 break;
@@ -49,6 +56,38 @@ public class UserServlet extends HttpServlet {
         }
 
     }
+
+    private void showAdminPage(HttpServletRequest request, HttpServletResponse response) {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("admin/homePageAdmin.jsp");
+        HttpSession session = request.getSession(false);
+        if(session!=null){
+            List<User>userList = (List<User>)session.getAttribute("userList");
+            request.setAttribute("userList",userList);
+            try {
+                dispatcher.forward(request,response);
+            } catch (ServletException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void showUserPage(HttpServletRequest request, HttpServletResponse response) {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("user/homePageUser.jsp");
+        HttpSession session = request.getSession(false);
+        if(session!=null){
+            User user = (User)session.getAttribute("user");
+            request.setAttribute("user",user);
+            try {
+                dispatcher.forward(request,response);
+            } catch (ServletException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }    }
 
     private void homePage(HttpServletRequest request, HttpServletResponse response) {
     }
@@ -88,27 +127,24 @@ public class UserServlet extends HttpServlet {
     }
 
     private void login(HttpServletRequest request, HttpServletResponse response) {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("admin/homePageAdmin.jsp");
-        RequestDispatcher dispatcher1 = request.getRequestDispatcher("user/homePageUser.jsp");
         RequestDispatcher dispatcher2 = request.getRequestDispatcher("index.jsp");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         User user =userService.findByIdPassword(username, password);
-        boolean check = userService.isLogin(user);
-        if (check == true) {
+        List<User> userList = userService.findAll();
+        if (user != null) {
+            HttpSession session = request.getSession();
             if (user.getRole().getName().equals("admin")) {
+                session.setAttribute("userList",userList);
                 try {
-                    dispatcher.forward(request, response);
-                } catch (ServletException e) {
-                    e.printStackTrace();
+                    response.sendRedirect("/login?action=homePageAdmin");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             } else {
+                session.setAttribute("user",user);
                 try {
-                    dispatcher1.forward(request, response);
-                } catch (ServletException e) {
-                    e.printStackTrace();
+                    response.sendRedirect("/login?action=homePageUser");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -123,6 +159,7 @@ public class UserServlet extends HttpServlet {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
 
         }
     }

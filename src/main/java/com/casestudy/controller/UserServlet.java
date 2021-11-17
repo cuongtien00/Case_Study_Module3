@@ -146,13 +146,14 @@ public class UserServlet extends HttpServlet {
     }
 
     private void signup(HttpServletRequest request, HttpServletResponse response) {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("user/createUser.jsp");
         String fullName = request.getParameter("fullName");
         String introduction = request.getParameter("introduction");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         while (userService.checkUserName(username)){
-            RequestDispatcher dispatcher = request.getRequestDispatcher("user/createUser.jsp");
-            request.setAttribute("message","Ten dang nhap da ton tai");
+
+            request.setAttribute("message","User Name has exists!");
             try {
                 dispatcher.forward(request, response);
             } catch (ServletException e) {
@@ -162,12 +163,16 @@ public class UserServlet extends HttpServlet {
             }
         }
         User user  = new User(fullName,introduction,username,password);
+        request.setAttribute("successMessage","Sign Up Success!");
         try {
             userService.insert(user);
-            response.sendRedirect("index.jsp");
+            dispatcher.forward(request,response);
+//            response.sendRedirect("user/createUser.jsp");
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ServletException e) {
             e.printStackTrace();
         }
 
@@ -198,7 +203,7 @@ public class UserServlet extends HttpServlet {
             }
 
         } else {
-            request.setAttribute("message", "Ten dang nhap hoac mat khau khong ton tai");
+            request.setAttribute("message", "User name or password is wrong!");
             try {
                 dispatcher2.forward(request, response);
             } catch (ServletException e) {

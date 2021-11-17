@@ -1,0 +1,52 @@
+#nav{
+    background-color: #CDCDCD;
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+}
+#logo{
+    width: 600px;
+    font-size: 50px;
+    display: flex;
+    align-items: center;
+}
+#search{
+    height: 25px;
+    background-color: #CDCDCD;
+    width: 200px;
+
+}
+#menu
+{
+    width: 400px;
+    display: flex;
+    align-items: center;
+}
+
+
+
+#watch,#market,#home,#group,#gaming{
+    font-size: 30px;
+}
+
+#menu a{
+    width: 80px;
+}
+#diff{
+    margin-left: 200px;
+    display: flex;
+    align-items: center;
+}
+#img{
+
+}
+#name{
+    font-family:Arial;
+}
+#menu2,#mess,#notification,#account{
+    font-size: 25px;
+}
+#diff a{
+    width: 40px;
+}

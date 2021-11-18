@@ -18,7 +18,55 @@
 </head>
 
 <body>
-<h2>${user.fullName}</h2>
-<h3>${user.introduction}</h3>
+<p>${user.fullName}</p>
+<p>${user.introduction}</p>
+<a href="/post?action=create&id=${user.id}"><input type="submit">create form</a>
+<div align="center">
+    <table border="1" class="table table-warning table-striped table-hover">
+        <tr>
+            <th><a href="/books?action=sort">Full Name</a></th>
+            <td><a href="/login?action=view&id=${user.id}">${user.fullName}</a></td>
+
+
+        </tr>
+            <tr>
+                <th>Introduction</th>
+                <td>${user.introduction}</td>
+
+            </tr>
+        <tr>
+            <th>Edit</th>
+            <td><a href="/login?action=edit&id=${user.id}">Edit</a></td>
+        </tr>
+<%--        <tr>--%>
+<%--            <form action="/post?action=create&id=${user.id}" method="post">--%>
+<%--                <td><input type="text" placeholder="title" name="tittle" id="tittle"></td>--%>
+<%--                <td><textarea name="content" id="content" cols="30" rows="10" placeholder="what are you thinking?"></textarea></td>--%>
+<%--                <td><textarea name="image" id="image" cols="30" rows="10" placeholder="image url?"></textarea></td>--%>
+<%--               <input type="submit" value="post">--%>
+<%--            </form>--%>
+
+<%--        </tr>--%>
+    </table>
+
+
+            <div id="post">
+                <c:forEach items="${postList}" var="post">
+                    <c:if test="${user.id == post.getUser().id}">
+<%--                        <p>${"bai viet cua: "+user.fullName}</p>--%>
+                    <p>${post.tittle}</p>
+                    <p>${post.content}</p>
+                    <div style="width: 200px" id="img"><img src="${post.image}" alt="" width="100%"></div>
+                    <a href="/post?action=edit&id=${post.id}">Edit</a>
+                    <a href="/post?action=delete&id=${post.id}">Delete</a>
+                    </c:if>
+                </c:forEach>
+
+            </div>
+
+
+    <a href="index.jsp"><input type="submit" value="Logout"></a>
+</div>
+
 </body>
 </html>

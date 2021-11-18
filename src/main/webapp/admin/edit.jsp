@@ -171,7 +171,7 @@
                    required="required">
         </div>
         <div class="form-group">
-            <input type="text" class="form-control input-lg" name="username" placeholder="Username" value="${user.userName}" required="required" disabled>
+            <input type="text" class="form-control input-lg" name="username" placeholder="Username" value="${user.userName}" required="required" >
         </div>
         <div class="form-group">
             <input type="password" class="form-control input-lg" name="password" placeholder="New Password"
@@ -196,7 +196,12 @@
         </p>
 
     </form>
-    <div class="text-center">Return homepage? <a href="/login?action=homePageAdmin"> HomePage</a></div>
+    <div class="text-center">Return homepage?
+        <form action="/login?action=login" method="post">
+            <input name="username" value="${"truongoi"}" hidden>
+            <input name="password" value="${"123456"}" hidden>
+            <input type="submit" value="HomePage">
+        </form></div>
 </div>
 </body>
 </html>

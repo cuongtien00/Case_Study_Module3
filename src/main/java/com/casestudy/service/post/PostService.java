@@ -4,10 +4,7 @@ import com.casestudy.config.ConnectionSingleton;
 import com.casestudy.model.Post;
 import com.casestudy.service.user.UserService;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +24,24 @@ public class PostService implements IPostService{
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+    public int insertReturnId(Post post) throws SQLException {
+        int postId = 0;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("insert  into post (tittle, content, image, user_id) value (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1,post.getTittle());
+            preparedStatement.setString(2,post.getContent());
+            preparedStatement.setString(3, post.getImage());
+            preparedStatement.setInt(4,post.getUser().getId());
+            preparedStatement.executeUpdate();
+            ResultSet rs = preparedStatement.getGeneratedKeys();
+            while (rs.next()){
+                postId = rs.getInt(1);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return postId;
     }
 
     @Override

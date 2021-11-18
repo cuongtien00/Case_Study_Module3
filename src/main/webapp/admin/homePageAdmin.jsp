@@ -14,10 +14,9 @@
 </head>
 <body>
 <div align="center">
-    <h3><a href="/login?action=signup" style="color: red">Create new User</a></h3>
     <table border="1" class="table table-warning table-striped table-hover">
         <tr>
-            <th><a href="/books?action=sort">Full Name</a></th>
+            <th>Full Name</th>
             <th>Introduction</th>
             <th>User Name</th>
             <th>Pass Word</th>
@@ -36,6 +35,7 @@
 
         </d:forEach>
     </table>
+    <a href="index.jsp"><input type="submit" value="Logout"></a>
 </div>
 </body>
 </html>

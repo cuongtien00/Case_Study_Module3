@@ -48,21 +48,48 @@
 
 <%--        </tr>--%>
     </table>
-
-
-            <div id="post">
-                <c:forEach items="${postList}" var="post">
-                    <c:if test="${user.id == post.getUser().id}">
-<%--                        <p>${"bai viet cua: "+user.fullName}</p>--%>
+<fieldset>
+    <legend>facebook</legend>
+    <fieldset>
+        <legend>Post</legend>
+        <div id="post">
+            <c:forEach items="${postList}" var="post">
+                <c:if test="${user.id == post.getUser().id}">
+                    <%--                        <p>${"bai viet cua: "+user.fullName}</p>--%>
                     <p>${post.tittle}</p>
                     <p>${post.content}</p>
                     <div style="width: 200px" id="img"><img src="${post.image}" alt="" width="100%"></div>
                     <a href="/post?action=edit&id=${post.id}">Edit</a>
                     <a href="/post?action=delete&id=${post.id}">Delete</a>
-                    </c:if>
-                </c:forEach>
+                    <fieldset>
+                        <legend>
+                            Comment
+                        </legend>
+                        <c:forEach items="${commentList}" var="comment">
+                            <c:if test="${post.id==comment.getPost().id}">
+                                <p>${comment.getUser().fullName}</p>
+                                <p>${comment.content}</p>
+                                <a href="/comment?action=edit&id=${comment.id}">Edit</a>
+                                <a href="/comment?action=delete&id=${comment.id}">Delete</a>
+                            </c:if>
+                        </c:forEach>
+                        <form action="/comment?action=create&id=${post.id}" method="post">
+                            <input type="text" name="content" id="content" style="background-color: pink">
+                            <input type="submit" value="Comment" style="background-color: black">
+                        </form>
 
-            </div>
+                    </fieldset>
+                </c:if>
+            </c:forEach>
+
+
+
+
+        </div>
+
+    </fieldset>
+</fieldset>
+
 
 
     <a href="index.jsp"><input type="submit" value="Logout"></a>

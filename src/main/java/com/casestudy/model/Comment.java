@@ -60,4 +60,14 @@ public class Comment {
     public void setUser(User user) {
         this.user = user;
     }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", post=" + post +
+                ", user=" + user +
+                '}';
+    }
 }

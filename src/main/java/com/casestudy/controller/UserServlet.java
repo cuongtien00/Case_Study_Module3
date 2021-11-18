@@ -223,6 +223,7 @@ public class UserServlet extends HttpServlet {
                    User user1 =  (User) session.getAttribute("userLogin");
                    request.setAttribute("user",user1);
                    request.setAttribute("postList",postService.findAll());
+                   request.setAttribute("commentList",commentService.findAll());
                    dispatcher.forward(request,response);
                 } catch (IOException | ServletException e) {
                     e.printStackTrace();

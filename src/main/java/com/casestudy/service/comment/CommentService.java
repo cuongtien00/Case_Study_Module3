@@ -8,10 +8,7 @@ import com.casestudy.service.post.PostService;
 import com.casestudy.service.user.UserService;
 
 import javax.servlet.RequestDispatcher;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +40,8 @@ public class CommentService implements ICommentService{
         return commentList;
     }
 
+
+
     @Override
     public void insert(Comment comment)  {
         try{
@@ -54,6 +53,22 @@ public class CommentService implements ICommentService{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }public int insertReturnId(Comment comment)  {
+        int commentId= 0;
+        try{
+            PreparedStatement ps = connection.prepareStatement("insert into comment(content, post_id, user_id) value (?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, comment.getContent());
+            ps.setInt(2, comment.getPost().getId());
+            ps.setInt(3, comment.getUser().getId());
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            while (rs.next()){
+                commentId = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return commentId;
     }
 
     @Override

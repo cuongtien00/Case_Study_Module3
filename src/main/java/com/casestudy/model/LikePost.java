@@ -47,4 +47,13 @@ public class    LikePost {
     public void setUser(User user) {
         this.user = user;
     }
+
+    @Override
+    public String toString() {
+        return "LikePost{" +
+                "id=" + id +
+                ", post=" + post +
+                ", user=" + user +
+                '}';
+    }
 }

@@ -61,9 +61,25 @@
                     <div style="width: 200px" id="img"><img src="${post.image}" alt="" width="100%"></div>
                     <a href="/post?action=edit&id=${post.id}">Edit</a>
                     <a href="/post?action=delete&id=${post.id}">Delete</a>
-                    <p>${likePostList.size()+"Like"}</p>
-                    <a href="/">Like</a>
-                    <a href="">UnLike</a>
+                    <%
+                        request.setAttribute("likePostList",likePostService.findAllByPostId( ));%>
+
+<%--                    <c:if test="${likePostList.size()!=0}">--%>
+<%--                        <c:set var="count" value="${0}">--%>
+<%--                            <c:forEach items="${likePostList}" var="likePost">--%>
+<%--                                <c:if test="${post.id==likePost.getPost().id}">--%>
+<%--                                    <span>${count+=1} </span>--%>
+<%--                                </c:if>--%>
+<%--                            </c:forEach>--%>
+<%--                        </c:set>--%>
+<%--                    </c:if>--%>
+                    <div  _ngcontent-aey-c24="" class="users-thumb-list cg ng-star-inserted"><!----><a _ngcontent-aey-c24="" class="margin-left-icon ng-star-inserted" placement="top" aria-describedby="tooltip-2"><img _ngcontent-aey-c24="" class="font-size-image-icon" src="https://tim.codegym.vn/assets/images/likes-type/icon-haha.svg " style="width: 50px;height: 20px"></a><!----><a _ngcontent-aey-c24="" class="margin-left-icon ng-star-inserted" placement="top" aria-describedby="tooltip-3"><img _ngcontent-aey-c24="" class="font-size-image-icon" src="https://tim.codegym.vn/assets/images/likes-type/icon-like.svg" style="width: 50px;height: 20px"></a><!----><span _ngcontent-aey-c24=""><strong _ngcontent-aey-c24=""></strong><a _ngcontent-aey-c24="" class="cursor" placement="top" aria-describedby="tooltip-0"> 12 </a><span _ngcontent-aey-c24="" class="cursor" placement="top" aria-describedby="tooltip-1"> người khác đã thích </span></span><!----></div>
+
+                    <form action="/likePost?action=create&id=${post.id}" method="post">
+                        <input type="submit" value="like">
+                    </form>
+<%--                    <a href="">Like</a>--%>
+<%--                    <a href="/likePost?action=delete&id=">UnLike</a>--%>
                     <fieldset>
                         <legend>
                             Comment

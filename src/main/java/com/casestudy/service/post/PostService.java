@@ -25,6 +25,25 @@ public class PostService implements IPostService{
             throwables.printStackTrace();
         }
     }
+    public Post findPostByUserId(int userId){
+        Post post = null;
+        try {
+            PreparedStatement statement = connection.prepareStatement("select * from post where user_id=?");
+            statement.setInt(1,userId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()){
+                int id = rs.getInt("id");
+                String tittle = rs.getString("tittle");
+                String content = rs.getString("content");
+                String image = rs.getString("image");
+                post = new Post(id,tittle,content,image, userService.findById(userId));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return post;
+
+    }
     public int insertReturnId(Post post) throws SQLException {
         int postId = 0;
         try {
@@ -101,6 +120,7 @@ public class PostService implements IPostService{
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("select * from post");
             ResultSet rs = preparedStatement.executeQuery();
+
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String tittle = rs.getString("tittle");
@@ -109,9 +129,37 @@ public class PostService implements IPostService{
                 int user_id = rs.getInt("user_id");
                 postList.add(new Post(id, tittle,content,image,userService.findById(user_id)));
             }
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return postList;
     }
+//    public int[] findAllReturnIdArray() {
+//        List<Post> postList = new ArrayList<>();
+//        try {
+//            PreparedStatement preparedStatement = connection.prepareStatement("select * from post",Statement.RETURN_GENERATED_KEYS);
+//            ResultSet rs = preparedStatement.executeQuery();
+//            ResultSet rs1 = preparedStatement.getGeneratedKeys();
+//            while (rs.next()) {
+//                int id = rs.getInt("id");
+//                String tittle = rs.getString("tittle");
+//                String content = rs.getString("content");
+//                String image = rs.getString("image");
+//                int user_id = rs.getInt("user_id");
+//                postList.add(new Post(id, tittle,content,image,userService.findById(user_id)));
+//            }
+//            int[] postId = new int[postList.size()];
+//            while (rs1.next()){
+//                for (int i = 0; i < postId.length; i++) {
+//                    int id = rs1.getInt(1);
+//                    postId[i] = id;
+//                }
+//            }
+//
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        }
+//        return ;
+//    }
 }

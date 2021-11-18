@@ -6,6 +6,7 @@ public class Post {
     private String content;
     private String image;
     private User user;
+    private int totalLike;
 
     public Post() {
     }

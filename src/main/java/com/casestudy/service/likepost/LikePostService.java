@@ -91,5 +91,20 @@ public class LikePostService implements ILikePostService {
             throwables.printStackTrace();
         }
         return likePostList;
+    }public List<LikePost> findAllByPostId(int postId) {
+        List<LikePost> likePostList = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from likepost where post_id=?");
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                int post_id = rs.getInt("post_id");
+                int user_id = rs.getInt("user_id");
+                likePostList.add(new LikePost(id, postService.findById(post_id),userService.findById(user_id)));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return likePostList;
     }
 }

@@ -1,5 +1,6 @@
 package com.casestudy.controller;
 
+import com.casestudy.model.Post;
 import com.casestudy.model.Role;
 import com.casestudy.model.User;
 import com.casestudy.service.comment.CommentService;
@@ -223,8 +224,10 @@ public class UserServlet extends HttpServlet {
                 try {
                    User user1 =  (User) session.getAttribute("userLogin");
                    request.setAttribute("user",user1);
+//                   Post post = postService.findPostByUserId(user1.getId());
                    request.setAttribute("postList",postService.findAll());
                    request.setAttribute("commentList",commentService.findAll());
+//                   request.setAttribute("likePostList",likePostService.findAllByPostId());
                    dispatcher.forward(request,response);
                 } catch (IOException | ServletException e) {
                     e.printStackTrace();

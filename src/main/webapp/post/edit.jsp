@@ -12,7 +12,7 @@
     <title>Post</title>
 </head>
 <body>
-<form action="/post?action=edit&id=${post.id}" method="post">
+<form  method="post">
     <p>${post.getUser().fullName}</p>
     <input type="text" name="tittle" value="${post.tittle}">
     <input type="text" name="content" value="${post.content}">
@@ -23,6 +23,5 @@
     </c:if></p>
     <a href="/login?action=homePageUser"><input type="submit" value="Back Home"></a>
 </form>
-
 </body>
 </html>

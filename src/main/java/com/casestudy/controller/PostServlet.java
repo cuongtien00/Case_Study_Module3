@@ -124,6 +124,7 @@ public class PostServlet extends HttpServlet {
         request.setAttribute("message","Post was updated!");
         try {
             postService.update(post);
+//            session.setAttribute("post",post);
             request.setAttribute("post",post);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -138,12 +139,12 @@ public class PostServlet extends HttpServlet {
     }
 
     private void createPost(HttpServletRequest request, HttpServletResponse response) {
-RequestDispatcher dispatcher = request.getRequestDispatcher("user/homePageUser.jsp");
+    RequestDispatcher dispatcher = request.getRequestDispatcher("user/homePageUser.jsp");
 int userId = Integer.parseInt(request.getParameter("id"));
         String tittle = request.getParameter("tittle");
         String content = request.getParameter("content");
         String image = request.getParameter("image");
-//        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession();
         User user = userService.findById(userId);
         Post post = new Post(tittle,content,image, user);
 
@@ -154,7 +155,10 @@ int userId = Integer.parseInt(request.getParameter("id"));
 //        session.getAttribute("post");
 
         try {
+
             postService.insert(post);
+//            Post newPost = new Post(postID,tittle,content,image,user);
+//            session.setAttribute("post",newPost);
             request.setAttribute("user",user);
             request.setAttribute("postList",postService.findAll());
             dispatcher.forward(request,response);

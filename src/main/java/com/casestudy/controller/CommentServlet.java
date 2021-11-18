@@ -14,6 +14,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet(name = "CommentServlet", value = "/comment")
 public class CommentServlet extends HttpServlet {
@@ -43,9 +44,34 @@ public class CommentServlet extends HttpServlet {
         }    }
 
     private void delete(HttpServletRequest request, HttpServletResponse response) {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("user/homePageUser.jsp");
+        int id = Integer.parseInt(request.getParameter("id"));
+
+        try {
+            commentService.delete(id);
+            HttpSession session = request.getSession();
+            User user = (User)session.getAttribute("userLogin");
+            request.setAttribute("user",user);
+            request.setAttribute("postList",postService.findAll());
+            request.setAttribute("commentList",commentService.findAll());
+            dispatcher.forward(request,response);
+        } catch (SQLException | ServletException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response) {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("comment/edit.jsp");
+        int id = Integer.parseInt(request.getParameter("id"));
+        Comment comment = commentService.findById(id);
+        request.setAttribute("comment",comment);
+        try {
+            dispatcher.forward(request,response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -59,6 +85,7 @@ public class CommentServlet extends HttpServlet {
                 createComment(request,response);
                 break;
             case "edit":
+                editComment(request,response);
                 break;
             case "delete":
                 break;
@@ -67,6 +94,26 @@ public class CommentServlet extends HttpServlet {
             default:
                 break;
         }
+    }
+
+    private void editComment(HttpServletRequest request, HttpServletResponse response) {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("comment/edit.jsp");
+        int id = Integer.parseInt(request.getParameter("id"));
+        Comment comment = commentService.findById(id);
+        Post post = postService.findById(comment.getPost().getId());
+        String content = request.getParameter("content");
+        HttpSession session = request.getSession();
+            User user = (User)session.getAttribute("userLogin");
+            Comment comment1 = new Comment(id,content,post,user);
+            try {
+                commentService.update(comment1);
+                request.setAttribute("post",post);
+                request.setAttribute("user",user);
+                request.setAttribute("comment",comment1);
+                dispatcher.forward(request,response);
+            } catch (SQLException | ServletException | IOException e) {
+                e.printStackTrace();
+            }
     }
 
     private void createComment(HttpServletRequest request, HttpServletResponse response) {

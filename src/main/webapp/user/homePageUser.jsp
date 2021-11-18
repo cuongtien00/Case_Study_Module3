@@ -61,22 +61,30 @@
                     <div style="width: 200px" id="img"><img src="${post.image}" alt="" width="100%"></div>
                     <a href="/post?action=edit&id=${post.id}">Edit</a>
                     <a href="/post?action=delete&id=${post.id}">Delete</a>
+                    <p>${likePostList.size()+"Like"}</p>
+                    <a href="/">Like</a>
+                    <a href="">UnLike</a>
                     <fieldset>
                         <legend>
                             Comment
                         </legend>
-                        <c:forEach items="${commentList}" var="comment">
-                            <c:if test="${post.id==comment.getPost().id}">
-                                <p>${comment.getUser().fullName}</p>
-                                <p>${comment.content}</p>
-                                <a href="/comment?action=edit&id=${comment.id}">Edit</a>
-                                <a href="/comment?action=delete&id=${comment.id}">Delete</a>
-                            </c:if>
-                        </c:forEach>
-                        <form action="/comment?action=create&id=${post.id}" method="post">
-                            <input type="text" name="content" id="content" style="background-color: pink">
-                            <input type="submit" value="Comment" style="background-color: black">
-                        </form>
+<%--                        <select name="comment" id="comment" multiple>--%>
+                            <c:forEach items="${commentList}" var="comment">
+                                <c:if test="${post.id==comment.getPost().id}">
+                                    <p>${comment.getUser().fullName}</p>
+                                    <p>${comment.content}</p>
+                                    <a href="/comment?action=edit&id=${comment.id}">Edit</a>
+                                    <a href="/comment?action=delete&id=${comment.id}">Delete</a>
+                                </c:if>
+                            </c:forEach>
+<%--                        </select>--%>
+                       <div id="writeComment" style="width: 300px">
+                           <form action="/comment?action=create&id=${post.id}" method="post">
+                               <input placeholder="your comment" type="text" name="content" id="content" style="background-color: pink">
+                               <input type="submit" value="Comment" style="background-color: black">
+                           </form>
+                       </div>
+
 
                     </fieldset>
                 </c:if>

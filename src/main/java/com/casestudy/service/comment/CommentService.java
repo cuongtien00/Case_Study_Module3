@@ -75,7 +75,7 @@ public class CommentService implements ICommentService{
     public Comment findById(int id) {
         Comment comment = null;
         try {
-            PreparedStatement ps = connection.prepareStatement("select from comment where id=?");
+            PreparedStatement ps = connection.prepareStatement("select * from comment where id=?");
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()){

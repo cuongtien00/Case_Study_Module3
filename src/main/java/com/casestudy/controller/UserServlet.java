@@ -34,13 +34,13 @@ public class UserServlet extends HttpServlet {
         }
         switch (action) {
             case "homePageUser":
-//                showUserPage(request, response);
+                showUserPage(request, response);
                 break;
             case "homePageAdmin":
-//                showAdminPage(request, response);
+                showAdminPage(request, response);
                 break;
             case "signup":
-                showViewCreateUser(request,response);
+                showViewCreateUser(request, response);
                 break;
             case "edit":
                 showEditForm(request, response);
@@ -65,35 +65,37 @@ public class UserServlet extends HttpServlet {
     private void showViewCreateUser(HttpServletRequest request, HttpServletResponse response) {
         RequestDispatcher dispatcher = request.getRequestDispatcher("user/createUser.jsp");
         try {
-            dispatcher.forward(request,response);
+            dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
             e.printStackTrace();
         }
     }
 
-//    private void showAdminPage(HttpServletRequest request, HttpServletResponse response) {
-//        RequestDispatcher dispatcher = request.getRequestDispatcher("admin/homePageAdmin.jsp");
-//
-//            try {
-//                request.setAttribute("userList",userService.findAll());
-//                dispatcher.forward(request, response);
-//            } catch (ServletException | IOException e) {
-//                e.printStackTrace();
-//            }
-//    }
+    private void showAdminPage(HttpServletRequest request, HttpServletResponse response) {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("admin/homePageAdmin.jsp");
 
-//    private void showUserPage(HttpServletRequest request, HttpServletResponse response) {
-//        RequestDispatcher dispatcher = request.getRequestDispatcher("user/homePageUser.jsp");
-//        HttpSession session = request.getSession(false);
-//            try {
-//                User user = (User)session.getAttribute("user");
-//                request.setAttribute("user",user);
-//                dispatcher.forward(request, response);
-//            } catch (ServletException | IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//    }
+        try {
+            request.setAttribute("userList", userService.findAll());
+            dispatcher.forward(request, response);
+        } catch (IOException | ServletException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showUserPage(HttpServletRequest request, HttpServletResponse response) {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("user/homePageUser.jsp");
+        HttpSession session = request.getSession();
+        try {
+            User user1 = (User) session.getAttribute("userLogin");
+            request.setAttribute("user", user1);
+            request.setAttribute("postList", postService.findAll());
+            request.setAttribute("commentList", commentService.findAll());
+            dispatcher.forward(request, response);
+        } catch (IOException | ServletException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     private void homePage(HttpServletRequest request, HttpServletResponse response) {
 //        RequestDispatcher dispatcher = request.getRequestDispatcher("user/homePageUser.jsp");
@@ -125,12 +127,12 @@ public class UserServlet extends HttpServlet {
 
     private void delete(HttpServletRequest request, HttpServletResponse response) {
         int id = Integer.parseInt(request.getParameter("id"));
-        RequestDispatcher dispatcher =request.getRequestDispatcher("admin/homePageAdmin.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("admin/homePageAdmin.jsp");
         try {
             userService.delete(id);
-            List<User>userList = userService.findAll();
-            request.setAttribute("userList",userList);
-          dispatcher.forward(request,response);
+            List<User> userList = userService.findAll();
+            request.setAttribute("userList", userList);
+            dispatcher.forward(request, response);
         } catch (SQLException | IOException | ServletException e) {
             e.printStackTrace();
         }
@@ -144,17 +146,16 @@ public class UserServlet extends HttpServlet {
 
 //        HttpSession session = request.getSession();
 //        session.setAttribute("user",user);
-        request.setAttribute("user",user);
+        request.setAttribute("user", user);
 //        request.setAttribute("admin",admin);
         try {
-            dispatcher.forward(request,response);
+            dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
             e.printStackTrace();
         }
 
 
     }
-
 
 
     @Override
@@ -171,7 +172,7 @@ public class UserServlet extends HttpServlet {
                 login(request, response);
                 break;
             case "signup":
-                signup(request,response);
+                signup(request, response);
                 break;
             default:
 //                login(request, response);
@@ -185,21 +186,21 @@ public class UserServlet extends HttpServlet {
         String introduction = request.getParameter("introduction");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        while (userService.checkUserName(username)){
+        while (userService.checkUserName(username)) {
 
-            request.setAttribute("message","User Name has exists!");
+            request.setAttribute("message", "User Name has exists!");
             try {
                 dispatcher.forward(request, response);
             } catch (ServletException | IOException e) {
                 e.printStackTrace();
             }
         }
-        User user  = new User(fullName,introduction,username,password);
-        request.setAttribute("successMessage","Sign Up Success!");
+        User user = new User(fullName, introduction, username, password);
+        request.setAttribute("successMessage", "Sign Up Success!");
 
         try {
             userService.insert(user);
-            dispatcher.forward(request,response);
+            dispatcher.forward(request, response);
         } catch (SQLException | ServletException | IOException e) {
             e.printStackTrace();
         }
@@ -216,9 +217,9 @@ public class UserServlet extends HttpServlet {
         String password = request.getParameter("password");
         User user = userService.findByIdPassword(username, password);
         HttpSession session = request.getSession(false);
-        session.setAttribute("userLogin",user);
+        session.setAttribute("userLogin", user);
         if (user != null) {
-            if(user.getRole().getId()==1){
+            if (user.getRole().getId() == 1) {
                 try {
                    User user1 =  (User) session.getAttribute("userLogin");
                    request.setAttribute("user",user1);
@@ -228,8 +229,7 @@ public class UserServlet extends HttpServlet {
                 } catch (IOException | ServletException e) {
                     e.printStackTrace();
                 }
-            }
-            else {
+            } else {
                 try {
                     request.setAttribute("userList",userService.findAll());
                    dispatcher1.forward(request,response);
@@ -263,13 +263,13 @@ public class UserServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         Role role = roleService.findById(1);
-        User user = new User(id,fullName,introduction,username,password,role);
+        User user = new User(id, fullName, introduction, username, password, role);
 
         try {
             userService.update(user);
-            session.setAttribute("user",user);
-            request.setAttribute("message","User was updated!");
-            dispatcher.forward(request,response);
+            session.setAttribute("user", user);
+            request.setAttribute("message", "User was updated!");
+            dispatcher.forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ServletException e) {

@@ -52,13 +52,44 @@ public class UserServlet extends HttpServlet {
             case "view":
                 showView(request, response);
                 break;
+            case "logout":
+                logout(request,response);
             case "homepage":
                 homePage(request, response);
                 break;
 
+
             default:
 //                homePage(request, response);
                 break;
+        }
+
+    }
+
+    private void resultPage(HttpServletRequest request, HttpServletResponse response) {
+        String keyWord = request.getParameter("search");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("user/resultSearch.jsp");
+        HttpSession session = request.getSession();
+        User user = (User)session.getAttribute("userLogin");
+        request.setAttribute("user",user);
+        request.setAttribute("resultSearchList",userService.findByCharOfName(keyWord));
+        request.setAttribute("relationshipList",relationshipService.findAllByUserId(user.getId()));
+        try {
+            dispatcher.forward(request,response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void logout(HttpServletRequest request, HttpServletResponse response) {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+        HttpSession session = request.getSession();
+        session.invalidate();
+        try {
+            dispatcher.forward(request,response);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
         }
 
     }
@@ -88,9 +119,12 @@ public class UserServlet extends HttpServlet {
         HttpSession session = request.getSession();
         try {
             User user1 = (User) session.getAttribute("userLogin");
+
             request.setAttribute("user", user1);
             request.setAttribute("postList", postService.findAll());
             request.setAttribute("commentList", commentService.findAll());
+            request.setAttribute("relationshipList",relationshipService.findAllByUserId(user1.getId()));
+            request.setAttribute("likePostList",likePostService.findAll());
             dispatcher.forward(request, response);
         } catch (IOException | ServletException e) {
             e.printStackTrace();
@@ -175,6 +209,9 @@ public class UserServlet extends HttpServlet {
             case "signup":
                 signup(request, response);
                 break;
+            case "search":
+                resultPage(request, response);
+                break;
             default:
 //                login(request, response);
                 break;
@@ -224,10 +261,11 @@ public class UserServlet extends HttpServlet {
                 try {
                    User user1 =  (User) session.getAttribute("userLogin");
                    request.setAttribute("user",user1);
-//                   Post post = postService.findPostByUserId(user1.getId());
+                   Post post = postService.findPostByUserId(user1.getId());
                    request.setAttribute("postList",postService.findAll());
                    request.setAttribute("commentList",commentService.findAll());
-//                   request.setAttribute("likePostList",likePostService.findAllByPostId());
+                   request.setAttribute("relationshipList",relationshipService.findAllByUserId(user1.getId()));
+                   request.setAttribute("likePostList",likePostService.findAll());
                    dispatcher.forward(request,response);
                 } catch (IOException | ServletException e) {
                     e.printStackTrace();

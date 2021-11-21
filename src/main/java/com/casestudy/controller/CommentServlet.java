@@ -54,6 +54,9 @@ public class CommentServlet extends HttpServlet {
             request.setAttribute("user",user);
             request.setAttribute("postList",postService.findAll());
             request.setAttribute("commentList",commentService.findAll());
+            request.setAttribute("relationshipList",relationshipService.findAllByUserId(user.getId()));
+            request.setAttribute("likePostList",likePostService.findAll());
+
             dispatcher.forward(request,response);
         } catch (SQLException | ServletException | IOException e) {
             e.printStackTrace();
@@ -128,6 +131,9 @@ public class CommentServlet extends HttpServlet {
         request.setAttribute("user",user);
         request.setAttribute("postList",postService.findAll());
         request.setAttribute("commentList",commentService.findAll());
+        request.setAttribute("relationshipList",relationshipService.findAllByUserId(user.getId()));
+        request.setAttribute("likePostList",likePostService.findAll());
+
         try {
             dispatcher.forward(request,response);
         } catch (ServletException e) {

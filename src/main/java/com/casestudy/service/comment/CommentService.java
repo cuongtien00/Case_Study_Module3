@@ -39,6 +39,27 @@ public class CommentService implements ICommentService{
         }
         return commentList;
     }
+    public List<Comment> findAllByPostId(int postId) {
+        List<Comment> commentList = new ArrayList<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement("select * from comment where post_id=? ");
+            ps.setInt(1,postId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String content = rs.getString("content");
+                int post_id = rs.getInt("post_id");
+                Post post = postService.findById(post_id);
+                int user_id = rs.getInt("user_id");
+                User user = userService.findById(user_id);
+                Comment comment = new Comment(id, content, post, user);
+                commentList.add(comment);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return commentList;
+    }
 
 
 

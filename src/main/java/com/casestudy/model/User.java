@@ -102,6 +102,18 @@ public class User {
 
 
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", fullName='" + fullName + '\'' +
+                ", introduction='" + introduction + '\'' +
+                ", userName='" + userName + '\'' +
+                ", passWord='" + passWord + '\'' +
+                ", role=" + role +
+                '}';
+    }
 }
 
 

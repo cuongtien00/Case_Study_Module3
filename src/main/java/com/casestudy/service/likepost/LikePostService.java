@@ -66,8 +66,22 @@ public class LikePostService implements ILikePostService {
     public boolean delete(int id) throws SQLException {
         boolean rowDelete = false;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("delete from likepost where id = ?");
-            preparedStatement.setInt(1, id);
+            PreparedStatement preparedStatement = connection.prepareStatement("delete from likepost where id =? ");
+            preparedStatement.setInt(1,id);
+
+            rowDelete = preparedStatement.executeUpdate() > 0;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return rowDelete;
+    }
+
+    public boolean deleteByPostAndUserId(int post_id,int user_id) throws SQLException {
+        boolean rowDelete = false;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("delete from likepost where post_id =? && user_id=?");
+            preparedStatement.setInt(1, post_id);
+            preparedStatement.setInt(2, user_id);
             rowDelete = preparedStatement.executeUpdate() > 0;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -95,6 +109,7 @@ public class LikePostService implements ILikePostService {
         List<LikePost> likePostList = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("select * from likepost where post_id=?");
+            preparedStatement.setInt(1,postId);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");

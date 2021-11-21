@@ -32,11 +32,11 @@ public class LikePostServlet extends HttpServlet {
             action = "";
         }
         switch (action) {
-            case "create":
+            case "create": createLike(request,response);
                 break;
             case "edit":
                 break;
-            case "delete":
+            case "delete":   disLike(request,response);
                 break;
             case "view":
                 break;
@@ -53,11 +53,12 @@ public class LikePostServlet extends HttpServlet {
         }
         switch (action) {
             case "create":
-                createLike(request,response);
+
                 break;
             case "edit":
                 break;
             case "delete":
+
                 break;
             case "view":
                 break;
@@ -66,7 +67,27 @@ public class LikePostServlet extends HttpServlet {
         }
     }
 
-    private void createLike(HttpServletRequest request, HttpServletResponse response) {
+    private void disLike(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        Post post = postService.findById(id);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("user/homePageUser.jsp");
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("userLogin");
+        try {
+            likePostService.deleteByPostAndUserId(post.getId(),user.getId());
+            request.setAttribute("user", user);
+            request.setAttribute("postList", postService.findAll());
+            request.setAttribute("commentList", commentService.findAll());
+            request.setAttribute("likePostList", likePostService.findAll());
+            request.setAttribute("relationshipList", relationshipService.findAllByUserId(user.getId()));
+            dispatcher.forward(request, response);
+
+        } catch (ServletException | IOException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+        private void createLike(HttpServletRequest request, HttpServletResponse response) {
         RequestDispatcher dispatcher = request.getRequestDispatcher("user/homePageUser.jsp");
         int postId = Integer.parseInt(request.getParameter("id"));
         Post post = postService.findById(postId);
@@ -78,7 +99,8 @@ public class LikePostServlet extends HttpServlet {
             request.setAttribute("user",user);
             request.setAttribute("postList",postService.findAll());
             request.setAttribute("commentList",commentService.findAll());
-            request.setAttribute("likePostList",likePostService.findAllByPostId(postId));
+            request.setAttribute("likePostList",likePostService.findAll());
+            request.setAttribute("relationshipList",relationshipService.findAllByUserId(user.getId()));
             dispatcher.forward(request,response);
         } catch (SQLException | ServletException | IOException e) {
             e.printStackTrace();

@@ -106,6 +106,27 @@ return rowUpdated;
         }
         return userList;
     }
+    public List<User> findByCharOfName(String keyWord){
+        List<User> userList = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement("select * from user where fullName like concat('%',?,'%')");
+            statement.setString(1,keyWord);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()){
+                int id = rs.getInt("id");
+                String fullName = rs.getString("fullName");
+                String introduction = rs.getString("introduction");
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+                Role role = roleService.findById(1);
+                userList.add(new User(id,fullName,introduction,username,password,role));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return userList;
+    }
+
     public User findByIdPassword(String username,String password){
         User user = null;
         try {
@@ -126,32 +147,4 @@ return rowUpdated;
         }
         return user;
     }
-//    public User isLogin(String username,String password){
-//        User user = new User();
-//        try {
-//            PreparedStatement statement = connection.prepareStatement("select * from user where username = ? && password =?;");
-//            statement.setString(1,username);
-//            statement.setString(2,password);
-//            ResultSet resultSet = statement.executeQuery();
-//            while (resultSet.next()){
-//                int id = resultSet.getInt("id");
-//                String fullName = resultSet.getString("fullName");
-//                String introduction = resultSet.getString("introduction");
-//                int role_id = resultSet.getInt("role_id");
-//                Role role = roleService.findById(role_id);
-//                user = new User(id,fullName,introduction,username,password,role);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return user;
-////        boolean check = false;
-////        List<User>userList = findAll();
-////        for (User a: userList) {
-////            if(a.getUserName().equals(user.getUserName())&&a.getPassWord().equals(user.getPassWord())){
-////                check = true;
-////            }
-////        }
-////        return check;
-//    }
 }
